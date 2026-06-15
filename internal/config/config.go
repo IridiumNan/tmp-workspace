@@ -25,6 +25,8 @@ type CleanupConfig struct {
 }
 
 type Config struct {
+	ConfigName string `toml:"config_name"`
+
 	WorkSpaceDir string `toml:"workspace_dir"`
 	MetadataPath string `toml:"metadata_path"`
 	LogPath      string `toml:"log_path"`
@@ -58,6 +60,11 @@ func handleNoConfig() (err error) {
 	_, err = cfgFile.Write([]byte(defaultConfig))
 	if err != nil {
 		return fmt.Errorf("error when write default config to file -> %s, err -> %w", defaultConfigPath, err)
+	}
+
+	_, err = toml.Decode(defaultConfig, &Cfg)
+	if err != nil {
+		return fmt.Errorf("error when decode default config -> %w", err)
 	}
 
 	return
