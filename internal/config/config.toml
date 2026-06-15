@@ -21,6 +21,11 @@ archive_dir = "~/.local/share/tmp-workspace/archived"
 
 auto_create_linked_dirs = true
 
+# ========== 生命周期配置 ==========
+# 临时工作区默认保留时长，单位：小时，默认 168 小时（7 天）
+retention_hours = 168
+
+
 # ========== 快捷链接配置 ==========
 # 创建工作区时自动软链接到工作区内的常用目录
 [linked_dirs]
@@ -32,10 +37,6 @@ tmp = "/tmp"
 # 系统下载目录
 downloads = "~/Downloads"
 
-
-# ========== 生命周期配置 ==========
-# 临时工作区默认保留时长，单位：小时，默认 168 小时（7 天）
-retention_hours = 168
 
 # ========== 自动清理配置 ==========
 [cleanup]
