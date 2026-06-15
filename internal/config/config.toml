@@ -19,6 +19,20 @@ log_path = "~/.local/state/tmp-workspace/events.log"
 archive_dir = "~/.local/share/tmp-workspace/archived"
 
 
+auto_create_linked_dirs = true
+
+# ========== 快捷链接配置 ==========
+# 创建工作区时自动软链接到工作区内的常用目录
+[linked_dirs]
+# 是否自动创建软链接
+
+# 系统临时目录，可存放下载文件、编译产物等
+tmp = "/tmp"
+
+# 系统下载目录
+downloads = "~/Downloads"
+
+
 # ========== 生命周期配置 ==========
 # 临时工作区默认保留时长，单位：小时，默认 168 小时（7 天）
 retention_hours = 168
@@ -32,17 +46,5 @@ auto_clean = true
 trigger_command = ["save", "new", "del", "clean"]
 
 # 清理检查最小间隔，单位：分钟
-check_interval = 20
-
-# ========== 快捷链接配置 ==========
-# 创建工作区时自动软链接到工作区内的常用目录
-[linked_dirs]
-# 是否自动创建软链接
-auto_create = true
-
-# 系统临时目录，可存放下载文件、编译产物等
-tmp = "~/tmp"
-
-# 系统下载目录
-downloads = "~/Downloads"
+check_interval_minutes = 20
 
