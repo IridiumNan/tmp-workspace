@@ -1,0 +1,48 @@
+# tmp-workspace 全局配置
+# 默认遵循 XDG 目录规范，所有路径均可自定义覆盖
+
+# ========== 核心路径配置 ==========
+# 临时工作区存放目录（用户待审判的临时产出）
+# 默认值：$XDG_STATE_HOME/tmp-workspace/workspaces → ~/.local/state/tmp-workspace/workspaces
+workspace_dir = "~/.local/state/tmp-workspace/workspaces"
+
+# 元数据文件路径（工作区状态等）
+# 默认值：$XDG_STATE_HOME/tmp-workspace/metadata.json → ~/.local/state/tmp-workspace/metadata.json
+metadata_path = "~/.local/state/tmp-workspace/metadata.json"
+
+# 日志路径 (记录所有由命令触发的事件)
+# 默认值：$XDG_STATE_HOME/tmp-workspace/events.log → ~/.local/state/tmp-workspace/events.log
+log_path = "~/.local/state/tmp-workspace/events.log"
+
+# 归档工作区保存目录（用户主动保存的永久资产，不受自动清理限制）
+# 默认值：$XDG_DATA_HOME/tmp-workspace/archived → ~/.local/share/tmp-workspace/archived
+archive_dir = "~/.local/share/tmp-workspace/archived"
+
+
+# ========== 生命周期配置 ==========
+# 临时工作区默认保留时长，单位：小时，默认 168 小时（7 天）
+retention_hours = 168
+
+# ========== 自动清理配置 ==========
+[cleanup]
+# 是否开启超时自动清理（懒触发模式：执行操作类命令时间隔检查）
+auto_clean = true
+
+# 自定义清理的命令， 执行下面的命令会自动执行检查并决定是否清理
+trigger_command = ["save", "new", "del", "clean"]
+
+# 清理检查最小间隔，单位：分钟
+check_interval = 20
+
+# ========== 快捷链接配置 ==========
+# 创建工作区时自动软链接到工作区内的常用目录
+[linked_dirs]
+# 是否自动创建软链接
+auto_create = true
+
+# 系统临时目录，可存放下载文件、编译产物等
+tmp = "~/tmp"
+
+# 系统下载目录
+downloads = "~/Downloads"
+
