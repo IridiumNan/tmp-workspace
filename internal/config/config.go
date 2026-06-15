@@ -3,6 +3,7 @@ package config
 import (
 	_ "embed"
 	"fmt"
+	"io"
 	"os"
 	"path"
 
@@ -24,12 +25,13 @@ type CleanupConfig struct {
 }
 
 type Config struct {
-	WorkSpaceDir         string `toml:"workspaces"`
-	MetadataPath         string `toml:"metadata_path"`
-	LogPath              string `toml:"log_path"`
-	ArchiveDir           string `toml:"archive_dir"`
-	RetentionHours       uint16 `toml:"retention_hours"`
+	WorkSpaceDir string `toml:"workspace_dir"`
+	MetadataPath string `toml:"metadata_path"`
+	LogPath      string `toml:"log_path"`
+	ArchiveDir   string `toml:"archive_dir"`
+
 	AutoCreateLinkedDirs bool   `toml:"auto_create_linked_dirs"`
+	RetentionHours       uint16 `toml:"retention_hours"`
 
 	LinkedDirs map[string]string `toml:"linked_dirs"`
 
@@ -61,6 +63,7 @@ func handleNoConfig() (err error) {
 	return
 }
 
+// LoadConfig : load from the default config path and decode to global variant config.Cfg
 func LoadConfig() (err error) {
 	var cfgFile *os.File
 	cfgFile, err = os.OpenFile(defaultConfigPath, os.O_RDONLY, 0o644)
@@ -69,8 +72,23 @@ func LoadConfig() (err error) {
 		return
 	}
 
-	var rawCfgFile []byte
-	_, err = cfgFile.Read(rawCfgFile)
+	defer func() {
+		closeErr := cfgFile.Close()
+		if closeErr == nil {
+			return
+		}
+
+		if err == nil {
+			err = fmt.Errorf("close config file fail: %w", closeErr)
+
+			return
+		}
+
+		fmt.Println("close config file fail: %w", closeErr)
+	}()
+
+	// use the io.ReadAll to read byte from config file directly
+	rawCfgFile, err := io.ReadAll(cfgFile)
 	if err != nil {
 		return fmt.Errorf("error when read config from %s, err -> %w", defaultConfigPath, err)
 	}
