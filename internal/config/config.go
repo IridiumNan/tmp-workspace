@@ -43,7 +43,7 @@ type Config struct {
 func handleNoConfig() (err error) {
 	fmt.Println("default config file not found")
 
-	err = utils.EnsureExist(path.Dir(defaultConfigPath))
+	err = utils.EnsureExist(path.Dir(defaultConfigPath), true)
 	if err != nil {
 		return
 	}
